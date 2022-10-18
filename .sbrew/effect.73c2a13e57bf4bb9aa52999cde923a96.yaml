@@ -1,0 +1,52 @@
+﻿FormatVersion: 7
+Name: "Sphere 1"
+Script: "Sphere"
+Multithreaded: No
+Config:
+  StartTime:
+    Type: "System.Int32"
+    Value: "286414"
+    DisplayName: "Start Time"
+  EndTime:
+    Type: "System.Int32"
+    Value: "328928"
+    DisplayName: "End Time"
+  DurationMult:
+    Type: "System.Double"
+    Value: "12"
+    DisplayName: "Duration Multiplier"
+  SplitInterval:
+    Type: "System.Int32"
+    Value: "5"
+    DisplayName: "Dot Split Interval"
+  MeshSize:
+    Type: "System.Single"
+    Value: "140"
+    DisplayName: "Shape Size"
+  Subdivision:
+    Type: "OpenTK.Vector2"
+    Value: "36,20"
+    DisplayName: "Bitmap Divisor"
+  Tilt:
+    Type: "System.Single"
+    Value: "30"
+  Center:
+    Type: "OpenTK.Vector2"
+    Value: "320,230"
+  SpinDir:
+    Type: "System.Int32"
+    Value: "1"
+    DisplayName: "Rotation Direction"
+    AllowedValues:
+      Clockwise: "1"
+      CounterClockwise: "-1"
+  RandomSeed:
+    Type: "System.Int32"
+    Value: "0"
+    DisplayName: "Random seed"
+Layers:
+  fe967119abf14bc3b7e85b9a73aae967:
+    Name: ""
+    OsbLayer: Background
+    DiffSpecific: No
+    Visible: No
