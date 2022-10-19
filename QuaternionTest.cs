@@ -12,7 +12,7 @@ namespace StorybrewScripts
         void Generate(int startTime, int endTime, double baseScale, int rings, int ringDotCount, double durationMult)
         {
             var beat = Beatmap.GetTimingPointAt(startTime).BeatDuration;
-            var rotFunc = new Vector3(MathHelper.DegreesToRadians(-50), .1f, MathHelper.DegreesToRadians(-25));
+            var rotFunc = new Vector3(degRad(-50), .1f, degRad(-30));
             var count = 0;
 
             for (double s = 0; s < rings; s++) 
@@ -45,7 +45,7 @@ namespace StorybrewScripts
                             (float)(r * Math.Cos(s / (double)rings * Math.PI)),
                             (float)(baseScale * Math.Cos(c / (double)ringDotCount * Math.PI * 2)),
                             (float)(r * Math.Sin(s / (double)rings * Math.PI))), 
-                            new Vector3(rotFunc.X, MathHelper.DegreesToRadians(.1f + i * 6), rotFunc.Z));
+                            new Vector3(rotFunc.X, degRad(.1 + i * 6), rotFunc.Z));
 
                         keyframe.Add(spinDuration / 60 * (i - 2), pos.X + 320);
                         pos = pos2;
@@ -76,5 +76,6 @@ namespace StorybrewScripts
             }
         }
         Vector3 Rotate(Vector3 Vector, Vector3 Rotation) => Vector3.Transform(Vector, new Quaternion(Rotation.X, Rotation.Y, Rotation.Z));
+        float degRad(double value) => MathHelper.DegreesToRadians((float)value);
     }
 }
