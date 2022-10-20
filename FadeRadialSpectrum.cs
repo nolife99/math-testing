@@ -27,6 +27,7 @@ namespace StorybrewScripts
                 {
                     var fft = GetFft(time + 40, ColumnCount + 5, null, OsbEasing.InExpo);
                     var barHeight = Math.Pow(Math.Log10(1 + fft[i] * 75), 1.25) * MaxRadius;
+                    if (barHeight < InitRadius) barHeight = InitRadius;
                     keyframes.Add(time, (float)barHeight);
                 }
                 keyframes.Simplify1dKeyframes(1, h => h);
