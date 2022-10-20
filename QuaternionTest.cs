@@ -7,7 +7,7 @@ using System;
 namespace StorybrewScripts
 {
     /// <summary>
-    /// Recreates the tilted, rotating sphere from Asymmetry (using accurate keyframing and quaternions).
+    /// Recreates the splitted, tilted sphere from Asymmetry (using accurate keyframing and quaternions).
     /// Verified working.
     /// </summary>
     class QuaternionTest : StoryboardObjectGenerator
