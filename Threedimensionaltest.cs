@@ -1,14 +1,20 @@
 using OpenTK;
 using StorybrewCommon.Scripting;
 using StorybrewCommon.Storyboarding;
-using StorybrewCommon.Storyboarding3d;
+using StorybrewCommon.Storyboarding3d; // Debug assembly
 using StorybrewCommon.Animations;
 using System;
 
 namespace StorybrewScripts
 {
+    /// <summary>
+    /// Uses debug assemblies to make a simple 3D scene.
+    /// </summary>
     class Threedimensionaltest : StoryboardObjectGenerator
     {
+        /// <summary>
+        /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
+        /// </summary>
         protected override void Generate()
         {
             /* var back = GetLayer("").CreateSprite("sb/p.png");
@@ -16,6 +22,8 @@ namespace StorybrewScripts
             back.Color(66985, 88585, "#000000", "#000000"); */
             Generate3dScene(66985, 88585);
         }
+        
+        // Travel through star world
         void Generate3dScene(int startTime, int endTime)
         {
             var duration = endTime - startTime;
