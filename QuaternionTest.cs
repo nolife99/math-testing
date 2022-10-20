@@ -7,9 +7,16 @@ using System;
 
 namespace StorybrewScripts
 {
+    /// <summary>
+    /// Recreates the splitted, tilted sphere from Asymmetry (using accurate keyframing and quaternions).
+    /// Verified working.
+    /// </summary>
     class QuaternionTest : StoryboardObjectGenerator
     {
-        protected override void Generate() => Generate(286414, 328928, 140, 18, 36, 17);
+        /// <summary>
+        /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
+        /// </summary>
+        protected override void Generate() => Generate(286414, 328928, 140, 18, 36, 17.5);
         void Generate(int startTime, int endTime, double baseScale, int rings, int ringDotCount, double durationMult)
         {
             var beat = Beatmap.GetTimingPointAt(startTime).BeatDuration;

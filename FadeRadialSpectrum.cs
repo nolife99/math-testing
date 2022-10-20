@@ -6,8 +6,15 @@ using System;
 
 namespace StorybrewScripts
 {
+    /// <summary>
+    /// Replicates a radial spectrum from many beatmaps (including Asymmetry).
+    /// Verified working.
+    /// </summary>
     class FadeRadialSpectrum : StoryboardObjectGenerator
     {
+        /// <summary>
+        /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
+        /// </summary>
         protected override void Generate() => RadialSpectrum(286414, 328928, 20, new Vector4(2, 8, 8, 120), new Vector2(320, 240));
         void RadialSpectrum(int startTime, int endTime, int ColumnCount, Vector4 size, Vector2 center)
         {

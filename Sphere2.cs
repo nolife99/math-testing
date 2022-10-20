@@ -6,8 +6,14 @@ using System;
 
 namespace StorybrewScripts
 {
+    /// <summary>
+    /// Deprecated, not working
+    /// </summary>
     class Sphere2 : StoryboardObjectGenerator
     {
+        /// <summary>
+        /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
+        /// </summary>
         protected override void Generate()
         {
             int Radius = 120;
