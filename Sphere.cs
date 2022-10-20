@@ -5,6 +5,10 @@ using System;
 
 namespace StorybrewScripts
 {
+    /// <summary>
+    /// Replicates a splitted, tilted sphere (like the 3D objects in world.execute(me);) without using 3D assemblies.
+    /// Verified working.
+    /// </summary>
     class Sphere : StoryboardObjectGenerator
     {
         [Configurable(DisplayName = "Start Time")] public int StartTime = 0;
@@ -17,11 +21,14 @@ namespace StorybrewScripts
         [Configurable] public Vector2 Center = new Vector2(320, 240);
         [Configurable(DisplayName = "Rotation Direction")] public Direction SpinDir = Direction.Clockwise;
 
+        /// <summary>
+        /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
+        /// </summary>
         protected override void Generate()
         {
             var beat = Beatmap.GetTimingPointAt(StartTime).BeatDuration;
 
-            var tiltAngle = Math.Sin(degToRad(Tilt));
+            var tiltAngle = Math.Sin(MathHelper.DegreesToRadians(Tilt));
             var spinDuration = beat * DurationMult;
             double startTime = StartTime;
 
@@ -97,11 +104,6 @@ namespace StorybrewScripts
                 startTime -= spinDuration / Subdivision.X;
             }
         }
-        Vector3 Rotate(Vector3 Vector, Vector3 Rotation)
-            => Vector3.Transform(Vector, new Quaternion(Rotation.Z, Rotation.Y, Rotation.X));
-
-        float degToRad(double deg) => (float)MathHelper.DegreesToRadians(deg);
-
         public enum Direction
         {
             Clockwise = 1, CounterClockwise = -1
