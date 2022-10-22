@@ -59,7 +59,7 @@ namespace StorybrewScripts
                         pos = pos2;
                     }
                     keyframe.Simplify1dKeyframes(1, d => (float)d);
-                    keyframe.ForEachPair((s, e) => sprite.MoveX(s.Time, e.Time, s.Value, e.Value), 320, s => (int)s);
+                    keyframe.ForEachPair((s, e) => sprite.MoveX(s.Time, e.Time, (int)s.Value, (int)e.Value));
 
                     sprite.EndGroup();
 
