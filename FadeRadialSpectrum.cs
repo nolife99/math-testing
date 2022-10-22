@@ -37,7 +37,7 @@ namespace StorybrewScripts
                     if (barHeight < InitRadius) barHeight = InitRadius;
                     keyframes.Add(time, (float)barHeight);
                 }
-                keyframes.Simplify1dKeyframes(1, h => h);
+                keyframes.Simplify1dKeyframes(5, h => h);
 
                 for (var t = 0; t < Math.Floor((MaxRadius - InitRadius) / BarGap); t++)
                 {

@@ -42,16 +42,19 @@ namespace StorybrewScripts
             camera.FarFade.Add(startTime, 1000);
 
             var parent = scene.Root;
+            parent.Rotation.Add(endTime - 8000, new Quaternion(0, 0, 0))
+                .Add(endTime, new Quaternion(MathHelper.DegreesToRadians(90), 0, 0), EasingFunctions.QuintIn);
 
-            for (var i = 0; i < 2000; i++)
+            for (var i = 0; i < 1750; i++)
             {
-                Vector3 RandEndPos = new Vector3(Random(-8000, 8000), Random(-4500, 4500), i * 12.2f);
+                Vector3 RandEndPos = new Vector3(Random(-5333, 5333), Random(-3000, 3000), i * 14);
 
                 var star = new Sprite3d()
                 {
                     SpritePath = "sb/dot.png",
                     UseDistanceFade = true,
-                    Additive = true
+                    Additive = true,
+                    RotationMode = RotationMode.Fixed
                 };
                 star.ConfigureGenerators(g =>
                 {
@@ -67,7 +70,7 @@ namespace StorybrewScripts
 
                 star.PositionX.Add(startTime, RandEndPos.X - 2000)
                     .Add(startTime + duration / 2, RandEndPos.X + 2000, EasingFunctions.SineOut)
-                    .Add(endTime, RandEndPos.X - 2000, EasingFunctions.SineInOut);
+                    .Add(endTime, RandEndPos.X - 1000, EasingFunctions.SineInOut);
 
                 star.PositionY.Add(startTime, RandEndPos.Y).Add(endTime, RandEndPos.Y);
 

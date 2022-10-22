@@ -62,7 +62,7 @@ namespace StorybrewScripts
                         (float)Math.Round(double.Parse(arg[2], NumberStyles.Float), 6),
                         (float)Math.Round(double.Parse(arg[3], NumberStyles.Float), 6));
 
-                    threeDpos = Rotate(threeDpos, new Vector3(MathHelper.DegreesToRadians(-10), 0, 0));
+                    Rotate(threeDpos, new Vector3(MathHelper.DegreesToRadians(-10), 0, 0));
 
                     var sprite = GetLayer("").CreateSprite("sb/p.png");
 

@@ -16,14 +16,14 @@ namespace StorybrewScripts
         /// <summary>
         /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
         /// </summary>
-        protected override void Generate() => Generate(286414, 328928, 140, 18, 36, 17.5);
+        protected override void Generate() => Generate(286414, 328928, 140, 18, 36, 17);
         void Generate(int startTime, int endTime, double baseScale, int rings, int ringDotCount, double durationMult)
         {
             var beat = Beatmap.GetTimingPointAt(startTime).BeatDuration;
-            var rotFunc = new Vector3(degRad(-50), .1f, degRad(-30));
+            var rotFunc = new Vector3(degRad(-50), 0, degRad(-30));
             var count = 0;
 
-            for (double s = 0; s < rings; s++) 
+            for (double r = 0; r < rings; r++) 
             {
                 count++;
                 for (double c = 1; c < ringDotCount; c++)
@@ -33,33 +33,33 @@ namespace StorybrewScripts
 
                     if (c == ringDotCount / 2) continue;
 
-                    var r = baseScale * Math.Sin(c / (double)ringDotCount * Math.PI * 2);
+                    var radius = baseScale * Math.Sin(c / (double)ringDotCount * Math.PI * 2);
                     var pos = rotate(new Vector3d(
-                        r * Math.Cos(s / (double)rings * Math.PI),
+                        radius * Math.Cos(r / (double)rings * Math.PI),
                         baseScale * Math.Cos(c / (double)ringDotCount * Math.PI * 2),
-                        r * Math.Sin(s / (double)rings * Math.PI)), rotFunc);
+                        radius * Math.Sin(r / (double)rings * Math.PI)), rotFunc);
 
                     var sprite = GetLayer("").CreateSprite("sb/dot.png", OsbOrigin.Centre, new Vector2(0, (float)pos.Y + 240));
                     sprite.Fade(startTime + (c - 1) * 60, startTime + (c - 1) * 60 + 1000, 0, 1);
-                    sprite.Fade(endTime - s * 30, endTime - s * 30 + 1000, 1, 0);
+                    sprite.Fade(endTime - r * 30, endTime - r * 30 + 1000, 1, 0);
 
                     var spinDuration = beat * durationMult;
                     sprite.StartLoopGroup(startTime, ceiling((endTime - startTime) / spinDuration));
 
                     var keyframe = new KeyframedValue<double>(null);
-                    for (var i = 2; i <= 62; i++)
+                    for (var i = 1; i <= 361; i++)
                     {
                         var pos2 = rotate(new Vector3d(
-                            r * Math.Cos(s / (double)rings * Math.PI),
+                            radius * Math.Cos(r / (double)rings * Math.PI),
                             baseScale * Math.Cos(c / (double)ringDotCount * Math.PI * 2),
-                            r * Math.Sin(s / (double)rings * Math.PI)), 
-                            new Vector3(rotFunc.X, degRad(.1 + i * 6), rotFunc.Z));
+                            radius * Math.Sin(r / (double)rings * Math.PI)), 
+                            new Vector3(rotFunc.X, degRad(i), rotFunc.Z));
 
-                        keyframe.Add(spinDuration / 60 * (i - 2), pos.X + 320);
+                        keyframe.Add(spinDuration / 360 * (i - 1), pos.X + 320);
                         pos = pos2;
                     }
-                    keyframe.Simplify1dKeyframes(1, f => (float)f);
-                    keyframe.ForEachPair((start, end) => sprite.MoveX(start.Time, end.Time, start.Value, end.Value));
+                    keyframe.Simplify1dKeyframes(1, d => (float)d);
+                    keyframe.ForEachPair((s, e) => sprite.MoveX(s.Time, e.Time, s.Value, e.Value), 320, s => (int)s);
 
                     sprite.EndGroup();
 
