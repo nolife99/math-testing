@@ -33,7 +33,7 @@ namespace StorybrewScripts
 
             camera.PositionX.Add(startTime, 0).Add(endTime, 0);
             camera.PositionY.Add(startTime, 0).Add(endTime, 0);
-            camera.PositionZ.Add(startTime, -50).Add(endTime, -50);
+            camera.PositionZ.Add(startTime, -20).Add(endTime, -20);
             
             camera.NearClip.Add(startTime, 30);
             camera.FarClip.Add(startTime, 3000);
@@ -47,7 +47,7 @@ namespace StorybrewScripts
 
             for (var i = 0; i < 1750; i++)
             {
-                Vector3 RandEndPos = new Vector3(Random(-5333, 5333), Random(-3000, 3000), i * 14);
+                Vector3 RandEndPos = new Vector3(Random(-5024, 5024), Random(-3600, 3600), i * 10);
 
                 var star = new Sprite3d()
                 {

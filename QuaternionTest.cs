@@ -21,16 +21,15 @@ namespace StorybrewScripts
         {
             var beat = Beatmap.GetTimingPointAt(startTime).BeatDuration;
             var rotFunc = new Vector3(degRad(-50), 0, degRad(-30));
-            var count = 0;
+            var index = 0; // split mechanism
 
             for (double r = 0; r < rings; r++) 
             {
-                count++;
+                index++;
                 for (double c = 1; c < ringDotCount; c++)
                 {
-                    if (count > 5 && count < 10) continue;
-                    else if (count == 10) count = 1;
-
+                    if (index > 5 && index < 10) break;
+                    else if (index == 10) index = 1;
                     if (c == ringDotCount / 2) continue;
 
                     var radius = baseScale * Math.Sin(c / (double)ringDotCount * Math.PI * 2);
@@ -47,7 +46,7 @@ namespace StorybrewScripts
                     sprite.StartLoopGroup(startTime, ceiling((endTime - startTime) / spinDuration));
 
                     var keyframe = new KeyframedValue<double>(null);
-                    for (var i = 1; i <= 361; i++)
+                    for (var i = 1; i <= 361; i++) // start at 1 because we are using the original 0 degree position.
                     {
                         var pos2 = rotate(new Vector3d(
                             radius * Math.Cos(r / (double)rings * Math.PI),
@@ -63,9 +62,8 @@ namespace StorybrewScripts
 
                     sprite.EndGroup();
 
-                    if (count == 1 | count == 5)
+                    if (index == 1 | index == 5)
                     {
-                        sprite.Additive(startTime);
                         sprite.Color(297385, 297728, Color4.DeepSkyBlue, Color4.IndianRed);
                         sprite.Color(308356, 308699, Color4.IndianRed, Color4.SeaGreen);
                         sprite.Color(319328, 319671, Color4.SeaGreen, Color4.Crimson);
