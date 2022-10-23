@@ -51,16 +51,16 @@ namespace StorybrewScripts
 
                 var star = new Sprite3d()
                 {
-                    SpritePath = "sb/dot.png",
+                    SpritePath = "sb/d.png",
                     UseDistanceFade = true,
                     Additive = true,
                     RotationMode = RotationMode.Fixed
                 };
                 star.ConfigureGenerators(g =>
                 {
-                    g.PositionTolerance = 1;
-                    g.ScaleTolerance = 2;
-                    g.OpacityTolerance = 1;
+                    g.PositionTolerance = 1.5;
+                    g.ScaleTolerance = 3;
+                    g.OpacityTolerance = 1.5;
                 });
                 
                 star.Opacity.Add(startTime, 0)
@@ -78,8 +78,7 @@ namespace StorybrewScripts
                     .Add(startTime + duration / 2, RandEndPos.Z - 4000, EasingFunctions.SineOut)
                     .Add(endTime, RandEndPos.Z - 8000, EasingFunctions.QuintIn);
 
-                star.SpriteScale.Add(startTime, new Vector2(10, 10))
-                    .Add(startTime + 500, new Vector2(5, 5), EasingFunctions.QuadOut);
+                star.SpriteScale.Add(startTime, new Vector2(.4f, .4f)).Add(startTime, new Vector2(.4f, .4f));
            
                 parent.Add(star);
             }

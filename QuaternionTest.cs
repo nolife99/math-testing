@@ -39,7 +39,7 @@ namespace StorybrewScripts
                         baseScale * Math.Cos(c / (double)ringDotCount * Math.PI * 2),
                         radius * Math.Sin(r / (double)rings * Math.PI)), rotFunc);
 
-                    var sprite = GetLayer("").CreateSprite("sb/dot.png", OsbOrigin.Centre, new Vector2(0, (float)pos.Y + 240));
+                    var sprite = GetLayer("").CreateSprite("sb/d.png", OsbOrigin.Centre, new Vector2(0, (float)pos.Y + 240));
                     sprite.Fade(startTime + (c - 1) * 60, startTime + (c - 1) * 60 + 1000, 0, 1);
                     sprite.Fade(endTime - r * 30, endTime - r * 30 + 1000, 1, 0);
 
@@ -73,15 +73,15 @@ namespace StorybrewScripts
                         Action<double, double> ScaleLoop = (MaxScale, AmpScale) =>
                         {
                             sprite.StartLoopGroup(startTime, ceiling((endTime - startTime) / (beat * 4)));
-                            sprite.Scale(OsbEasing.InQuad, 0, beat, MaxScale, .25);
-                            sprite.Scale(OsbEasing.InQuad, beat, beat * 2.5, AmpScale, .25);
-                            sprite.Scale(OsbEasing.InQuad, beat * 2.5, beat * 3, MaxScale, .25);
-                            sprite.Scale(OsbEasing.InQuad, beat * 3, beat * 4, AmpScale, .25);
+                            sprite.Scale(OsbEasing.InQuad, 0, beat, MaxScale, .03);
+                            sprite.Scale(OsbEasing.InQuad, beat, beat * 2.5, AmpScale, .03);
+                            sprite.Scale(OsbEasing.InQuad, beat * 2.5, beat * 3, MaxScale, .03);
+                            sprite.Scale(OsbEasing.InQuad, beat * 3, beat * 4, AmpScale, .03);
                             sprite.EndGroup();
                         };
-                        ScaleLoop(.5, .6);
+                        ScaleLoop(.065, .07);
                     }
-                    else sprite.Scale(startTime, .3);
+                    else sprite.Scale(startTime, .035);
                 }
             }
         }
