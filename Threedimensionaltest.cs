@@ -1,9 +1,7 @@
 using OpenTK;
 using StorybrewCommon.Scripting;
-using StorybrewCommon.Storyboarding;
 using StorybrewCommon.Storyboarding3d; // Debug assembly
 using StorybrewCommon.Animations;
-using System;
 
 namespace StorybrewScripts
 {
@@ -12,6 +10,8 @@ namespace StorybrewScripts
     /// </summary>
     class Threedimensionaltest : StoryboardObjectGenerator
     {
+        public override bool Multithreaded => true;
+
         /// <summary>
         /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
         /// </summary>
@@ -60,7 +60,7 @@ namespace StorybrewScripts
                 {
                     g.PositionTolerance = 1.5;
                     g.ScaleTolerance = 3;
-                    g.OpacityTolerance = 1.5;
+                    g.OpacityTolerance = 3;
                 });
                 
                 star.Opacity.Add(startTime, 0)

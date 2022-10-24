@@ -1,7 +1,7 @@
 ﻿FormatVersion: 7
 Name: "Threedimensionaltest 1"
 Script: "Threedimensionaltest"
-Multithreaded: No
+Multithreaded: Yes
 Config:
   RandomSeed:
     Type: "System.Int32"
