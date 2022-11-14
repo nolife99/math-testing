@@ -22,7 +22,7 @@ namespace StorybrewScripts
         void Generate(int startTime, int endTime, double baseScale, int rings, int ringDotCount, double durationMult)
         {
             var beat = Beatmap.GetTimingPointAt(startTime).BeatDuration;
-            var rotFunc = new Vector3(degRad(-50), 0, degRad(-30));
+            var spinDuration = beat * durationMult;
             var index = 0; // split mechanism
 
             for (double r = 0; r < rings; r++) 
@@ -35,26 +35,24 @@ namespace StorybrewScripts
                     if (c == ringDotCount / 2) continue;
 
                     var radius = baseScale * Math.Sin(c / (double)ringDotCount * Math.PI * 2);
-                    var pos = rotate(new Vector3d(
+                    var basePos = new Vector3d(
                         radius * Math.Cos(r / (double)rings * Math.PI),
                         baseScale * Math.Cos(c / (double)ringDotCount * Math.PI * 2),
-                        radius * Math.Sin(r / (double)rings * Math.PI)), rotFunc);
+                        radius * Math.Sin(r / (double)rings * Math.PI));
+                        
+                    var rotFunc = new Vector3(degRad(-50), 0, degRad(-30));
+                    var pos = rotate(basePos, rotFunc);
 
                     var sprite = GetLayer("").CreateSprite("sb/d.png", OsbOrigin.Centre, new Vector2(0, (float)pos.Y + 240));
                     sprite.Fade(startTime + (c - 1) * 60, startTime + (c - 1) * 60 + 1000, 0, 1);
                     sprite.Fade(endTime - r * 30, endTime - r * 30 + 1000, 1, 0);
-
-                    var spinDuration = beat * durationMult;
+                    
                     var keyframe = new List<Keyframe<double>>();
-                    for (var i = 0; i <= 360; i++) // start at 1 because we are using the original 0 degree position.
+                    for (var i = .0; i <= 360; i += .5) // start at 1 because we are using the original 0 degree position.
                     {
-                        pos = rotate(new Vector3d(
-                            radius * Math.Cos(r / (double)rings * Math.PI),
-                            baseScale * Math.Cos(c / (double)ringDotCount * Math.PI * 2),
-                            radius * Math.Sin(r / (double)rings * Math.PI)),
-                            new Vector3(rotFunc.X, degRad(i), rotFunc.Z));
+                        pos = rotate(basePos, new Vector3(rotFunc.X, degRad(i), rotFunc.Z));
 
-                        keyframe.Add(new Keyframe<double>(spinDuration / 360.0 * (i - 1), pos.X));
+                        keyframe.Add(new Keyframe<double>(spinDuration / 360 * i, pos.X));
                     }
                     var maxFrame = getGreatestKeyframe(keyframe);
 
