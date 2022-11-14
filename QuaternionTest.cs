@@ -48,10 +48,9 @@ namespace StorybrewScripts
                     sprite.Fade(endTime - r * 30, endTime - r * 30 + 1000, 1, 0);
                     
                     var keyframe = new List<Keyframe<double>>();
-                    for (var i = .0; i <= 360; i += .5) // start at 1 because we are using the original 0 degree position.
+                    for (var i = .0; i <= 360; i += .5)
                     {
                         pos = rotate(basePos, new Vector3(rotFunc.X, degRad(i), rotFunc.Z));
-
                         keyframe.Add(new Keyframe<double>(spinDuration / 360 * i, pos.X));
                     }
                     var maxFrame = getGreatestKeyframe(keyframe);
