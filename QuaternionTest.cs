@@ -3,7 +3,6 @@ using OpenTK.Graphics;
 using StorybrewCommon.Scripting;
 using StorybrewCommon.Storyboarding;
 using StorybrewCommon.Animations;
-using System.Collections.Generic;
 using System.Linq;
 using System;
 
@@ -18,7 +17,7 @@ namespace StorybrewScripts
         /// <summary>
         /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
         /// </summary>
-        protected override void Generate() => Generate(286414, 328928, 140, 18, 36, 17);
+        public override void Generate() => Generate(286414, 328928, 140, 18, 36, 17);
         void Generate(int startTime, int endTime, double baseScale, int rings, int ringDotCount, double durationMult)
         {
             var beat = Beatmap.GetTimingPointAt(startTime).BeatDuration;
@@ -47,11 +46,11 @@ namespace StorybrewScripts
                     sprite.Fade(startTime + (c - 1) * 60, startTime + (c - 1) * 60 + 1000, 0, 1);
                     sprite.Fade(endTime - r * 30, endTime - r * 30 + 1000, 1, 0);
                     
-                    var keyframe = new List<Keyframe<double>>();
+                    var keyframe = new Keyframe<double>[721];
                     for (var i = .0; i <= 360; i += .5)
                     {
                         pos = rotate(basePos, new Vector3(rotFunc.X, degRad(i), rotFunc.Z));
-                        keyframe.Add(new Keyframe<double>(spinDuration / 360 * i, pos.X));
+                        keyframe[(int)(i * 2)] = (new Keyframe<double>(spinDuration / 360 * i, pos.X));
                     }
                     var maxFrame = getGreatestKeyframe(keyframe);
 
@@ -92,13 +91,13 @@ namespace StorybrewScripts
         float degRad(double value) => MathHelper.DegreesToRadians((float)value);
         int ceiling(double value) => (int)Math.Ceiling(value);
 
-        Keyframe<double> getGreatestKeyframe(List<Keyframe<double>> list)
+        Keyframe<double> getGreatestKeyframe(Keyframe<double>[] keyframes)
         {
-            var maxVal = list.Max(t => t.Value);
+            var maxVal = keyframes.Max(t => t.Value);
             var finalKeyframe = new Keyframe<double>();
 
             // iterate through the list and find the keyframe that matches the value.
-            foreach (var keyframe in list) if (maxVal == keyframe.Value) finalKeyframe = keyframe; 
+            foreach (var keyframe in keyframes) if (maxVal == keyframe.Value) finalKeyframe = keyframe; 
             return finalKeyframe;
         }
 
