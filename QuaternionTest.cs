@@ -94,16 +94,10 @@ namespace StorybrewScripts
 
         Keyframe<double> getGreatestKeyframe(List<Keyframe<double>> list)
         {
-            var values = new double[list.Count()];
-            var i = 0;
-
-            // iterate through the collection and log the greatest value.
-            foreach (var keyframe in list) values[i] = keyframe.Value;
-
             var maxVal = list.Max(t => t.Value);
             var finalKeyframe = new Keyframe<double>();
 
-            // iterate through the collection again and find the keyframe that matches the value.
+            // iterate through the list and find the keyframe that matches the value.
             foreach (var keyframe in list) if (maxVal == keyframe.Value) finalKeyframe = keyframe; 
             return finalKeyframe;
         }
