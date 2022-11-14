@@ -10,7 +10,7 @@ namespace StorybrewScripts
     /// </summary>
     class Threedimensionaltest : StoryboardObjectGenerator
     {
-        public override bool Multithreaded => true;
+        protected override bool Multithreaded => true;
 
         /// <summary>
         /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
@@ -78,11 +78,11 @@ namespace StorybrewScripts
                     .Add(startTime + duration / 2, RandEndPos.Z - 4000, EasingFunctions.SineOut)
                     .Add(endTime, RandEndPos.Z - 8000, EasingFunctions.QuintIn);
 
-                star.SpriteScale.Add(startTime, new Vector2(.4f, .4f)).Add(startTime, new Vector2(.4f, .4f));
+                star.SpriteScale.Add(startTime, new Vector2(.5f, .5f)).Add(endTime, new Vector2(.5f, .5f));
            
                 parent.Add(star);
             }
-            scene.Generate(camera, GetLayer(""), startTime, endTime, Beatmap.GetTimingPointAt(startTime).BeatDuration / 16);
+            scene.Generate(camera, GetLayer(""), startTime, endTime, Beatmap.GetTimingPointAt(startTime).BeatDuration / 32);
         }
     }
 }

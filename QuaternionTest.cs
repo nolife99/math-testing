@@ -3,6 +3,8 @@ using OpenTK.Graphics;
 using StorybrewCommon.Scripting;
 using StorybrewCommon.Storyboarding;
 using StorybrewCommon.Animations;
+using System.Collections.Generic;
+using System.Linq;
 using System;
 
 namespace StorybrewScripts
@@ -43,23 +45,26 @@ namespace StorybrewScripts
                     sprite.Fade(endTime - r * 30, endTime - r * 30 + 1000, 1, 0);
 
                     var spinDuration = beat * durationMult;
-                    sprite.StartLoopGroup(startTime, ceiling((endTime - startTime) / spinDuration));
-
-                    var keyframe = new KeyframedValue<double>(null);
-                    for (var i = 1; i <= 361; i++) // start at 1 because we are using the original 0 degree position.
+                    var keyframe = new List<Keyframe<double>>();
+                    for (var i = 0; i <= 360; i++) // start at 1 because we are using the original 0 degree position.
                     {
-                        var pos2 = rotate(new Vector3d(
+                        pos = rotate(new Vector3d(
                             radius * Math.Cos(r / (double)rings * Math.PI),
                             baseScale * Math.Cos(c / (double)ringDotCount * Math.PI * 2),
-                            radius * Math.Sin(r / (double)rings * Math.PI)), 
+                            radius * Math.Sin(r / (double)rings * Math.PI)),
                             new Vector3(rotFunc.X, degRad(i), rotFunc.Z));
 
-                        keyframe.Add(spinDuration / 360 * (i - 1), pos.X + 320);
-                        pos = pos2;
+                        keyframe.Add(new Keyframe<double>(spinDuration / 360.0 * (i - 1), pos.X));
                     }
-                    keyframe.Simplify1dKeyframes(1, d => (float)d);
-                    keyframe.ForEachPair((s, e) => sprite.MoveX(s.Time, e.Time, (int)s.Value, (int)e.Value));
+                    var maxFrame = getGreatestKeyframe(keyframe);
 
+                    // For this movement, the algorithm to get the correct starting point would be:
+                    // base start time + when keyframe reaches the max value out of the list - spin duration.
+
+                    var sTime = startTime + maxFrame.Time - spinDuration;
+                    sprite.StartLoopGroup(sTime, ceiling((endTime - startTime) / spinDuration));
+                    sprite.MoveX(OsbEasing.InOutSine, 0, spinDuration / 2, 320 + maxFrame.Value, 320 - maxFrame.Value);
+                    sprite.MoveX(OsbEasing.InOutSine, spinDuration / 2, spinDuration, 320 - maxFrame.Value, 320 + maxFrame.Value);
                     sprite.EndGroup();
 
                     if (index == 1 | index == 5)
@@ -89,6 +94,22 @@ namespace StorybrewScripts
         Vector3d rotate(Vector3d Vector, Vector3 Rotation) => Vector3d.Transform(Vector, new Quaterniond(Rotation.X, Rotation.Y, Rotation.Z));
         float degRad(double value) => MathHelper.DegreesToRadians((float)value);
         int ceiling(double value) => (int)Math.Ceiling(value);
+
+        Keyframe<double> getGreatestKeyframe(List<Keyframe<double>> list)
+        {
+            var values = new double[list.Count()];
+            var i = 0;
+
+            // iterate through the collection and log the greatest value.
+            foreach (var keyframe in list) values[i] = keyframe.Value;
+
+            var maxVal = list.Max(t => t.Value);
+            var finalKeyframe = new Keyframe<double>();
+
+            // iterate through the collection again and find the keyframe that matches the value.
+            foreach (var keyframe in list) if (maxVal == keyframe.Value) finalKeyframe = keyframe; 
+            return finalKeyframe;
+        }
 
         #endregion
     }
