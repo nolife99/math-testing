@@ -25,10 +25,10 @@ namespace StorybrewScripts
             var spinDuration = beat * durationMult;
             var index = 0; // split mechanism
 
-            for (double r = 0; r < rings; r++) 
+            for (var r = .0; r < rings; r++) 
             {
                 index++;
-                for (double c = 1; c < ringDotCount; c++)
+                for (var c = 1.0; c < ringDotCount; c++)
                 {
                     if (index > 5 && index < 10) break;
                     else if (index == 10) index = 1;
