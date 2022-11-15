@@ -61,13 +61,6 @@ namespace StorybrewScripts
                     sprite.StartLoopGroup(sTime, ceiling((endTime - sTime) / spinDuration));
                     sprite.MoveX(OsbEasing.InOutSine, 0, spinDuration / 2, 320 + maxFrame.Value, 320 - maxFrame.Value);
                     sprite.MoveX(OsbEasing.InOutSine, spinDuration / 2, spinDuration, 320 - maxFrame.Value, 320 + maxFrame.Value);
-
-                    if (index != 1 && index != 5)
-                    {
-                        sprite.Scale(OsbEasing.Out, 0, spinDuration / 4, .03, .035);
-                        sprite.Scale(OsbEasing.InOutSine, spinDuration / 4, spinDuration * .75, .035, .025);
-                        sprite.Scale(OsbEasing.In, spinDuration * .75, spinDuration, .025, .03);
-                    }
                     sprite.EndGroup();
 
                     if (index == 1 || index == 5)
@@ -87,6 +80,7 @@ namespace StorybrewScripts
                         };
                         ScaleLoop(.065, .07);
                     }
+                    else sprite.Scale(sTime, .035);
                 }
             }
         }
