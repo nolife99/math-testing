@@ -58,12 +58,19 @@ namespace StorybrewScripts
                     // base start time + when keyframe reaches the max value out of the list - spin duration.
 
                     var sTime = startTime + maxFrame.Time - spinDuration;
-                    sprite.StartLoopGroup(sTime, ceiling((endTime - startTime) / spinDuration));
+                    sprite.StartLoopGroup(sTime, ceiling((endTime - sTime) / spinDuration));
                     sprite.MoveX(OsbEasing.InOutSine, 0, spinDuration / 2, 320 + maxFrame.Value, 320 - maxFrame.Value);
                     sprite.MoveX(OsbEasing.InOutSine, spinDuration / 2, spinDuration, 320 - maxFrame.Value, 320 + maxFrame.Value);
+
+                    if (index != 1 && index != 5)
+                    {
+                        sprite.Scale(OsbEasing.Out, 0, spinDuration / 4, .03, .035);
+                        sprite.Scale(OsbEasing.InOutSine, spinDuration / 4, spinDuration * .75, .035, .025);
+                        sprite.Scale(OsbEasing.In, spinDuration * .75, spinDuration, .025, .03);
+                    }
                     sprite.EndGroup();
 
-                    if (index == 1 | index == 5)
+                    if (index == 1 || index == 5)
                     {
                         sprite.Color(297385, 297728, Color4.DeepSkyBlue, Color4.IndianRed);
                         sprite.Color(308356, 308699, Color4.IndianRed, Color4.SeaGreen);
@@ -80,7 +87,6 @@ namespace StorybrewScripts
                         };
                         ScaleLoop(.065, .07);
                     }
-                    else sprite.Scale(startTime, .035);
                 }
             }
         }
