@@ -17,7 +17,7 @@ namespace StorybrewScripts
         /// <summary>
         /// Custom build of storybrew: <see href="http://github.com/nolife99/storybrew"/>
         /// </summary>
-        public override void Generate() => Generate(286414, 328928, 140, 18, 36, 17);
+        protected override void Generate() => Generate(286414, 328928, 140, 18, 36, 17);
         void Generate(int startTime, int endTime, double baseScale, int rings, int ringDotCount, double durationMult)
         {
             var beat = Beatmap.GetTimingPointAt(startTime).BeatDuration;
