@@ -62,17 +62,15 @@ namespace StorybrewScripts
                         (float)Math.Round(double.Parse(arg[2], NumberStyles.Float), 6),
                         (float)Math.Round(double.Parse(arg[3], NumberStyles.Float), 6));
 
-                    Rotate(threeDpos, new Vector3(MathHelper.DegreesToRadians(-10), 0, 0));
+                    Rotate(threeDpos, new Vector3(0, 0, 0));
 
-                    var sprite = GetLayer("").CreateSprite("sb/p.png");
+                    var sprite = GetLayer("").CreateSprite("sb/p.png", OsbOrigin.Centre, new Vector2(0, threeDpos.Y));
 
                     var angle = Math.Atan2(threeDpos.Z, threeDpos.X);
                     var radius = scale * Distance(new Vector2(threeDpos.X, threeDpos.Z), new Vector2(0, 0));
                     var delay = spinDuration * (angle / (Math.PI * 2));
 
-                    sprite.MoveY(startTime - delay - (int)spinDuration / 1.5, threeDpos.Y * radius + centrePos.Y);
-
-                    sprite.StartLoopGroup(startTime - delay - (int)spinDuration / 1.5, (endTime - startTime) / spinDuration + 2);
+                    sprite.StartLoopGroup(startTime + delay - spinDuration, (endTime - startTime) / spinDuration + 2);
                     sprite.MoveX(OsbEasing.InOutSine, 0, spinDuration / 2, centrePos.X - radius * threeDpos.X, centrePos.X + radius * threeDpos.X);
                     sprite.MoveX(OsbEasing.InOutSine, spinDuration / 2, spinDuration, centrePos.X + radius * threeDpos.X, centrePos.X - radius * threeDpos.X);
                     sprite.EndGroup();
@@ -86,7 +84,7 @@ namespace StorybrewScripts
 
         public Vector3 Rotate(Vector3 Vector, Vector3 Rotation)
         {
-            var Rot = new Quaternion(Rotation.Z, Rotation.Y, Rotation.X);
+            var Rot = new Quaternion(Rotation.X, Rotation.Y, Rotation.Z);
             return Vector3.Transform(Vector, Rot);
         }
     }

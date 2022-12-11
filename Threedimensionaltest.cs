@@ -82,7 +82,7 @@ namespace StorybrewScripts
            
                 parent.Add(star);
             }
-            scene.Generate(camera, GetLayer(""), startTime, endTime, Beatmap.GetTimingPointAt(startTime).BeatDuration / 32);
+            scene.Generate(camera, GetLayer(""), startTime, endTime, Beatmap.GetTimingPointAt(startTime).BeatDuration / 8);
         }
     }
 }

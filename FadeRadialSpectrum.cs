@@ -2,13 +2,14 @@ using OpenTK;
 using StorybrewCommon.Animations;
 using StorybrewCommon.Scripting;
 using StorybrewCommon.Storyboarding;
-using System;
+
+using static StorybrewCommon.OpenTKUtil.MathHelper;
 
 namespace StorybrewScripts
 {
     /// <summary>
     /// Replicates a radial spectrum from many beatmaps (including Asymmetry).
-    /// Verified working.
+    /// <para>Verified working.</para>
     /// </summary>
     class FadeRadialSpectrum : StoryboardObjectGenerator
     {
@@ -23,7 +24,7 @@ namespace StorybrewScripts
             var InitRadius = size.Z;
             var MaxRadius = size.W;
 
-            var distance = 360 / ColumnCount * Math.PI / 180;
+            var distance = 360 / ColumnCount * Pi / 180;
 
             for (var i = 0; i < ColumnCount; i++)
             {
@@ -33,19 +34,20 @@ namespace StorybrewScripts
                 for (var time = (double)startTime; time < endTime + beat / 4; time += beat / 4)
                 {
                     var fft = GetFft(time + 40, ColumnCount + 5, null, OsbEasing.InExpo);
-                    var barHeight = Math.Pow(Math.Log10(1 + fft[i] * 75), 1.25) * MaxRadius;
+                    var barHeight = Pow(Log10(1 + fft[i] * 75), 1.25) * MaxRadius;
                     if (barHeight < InitRadius) barHeight = InitRadius;
                     keyframes.Add(time, (float)barHeight);
                 }
                 keyframes.Simplify1dKeyframes(5, h => h);
 
-                for (var t = 0; t < Math.Floor((MaxRadius - InitRadius) / BarGap); t++)
+                for (var t = 0; t < Floor((MaxRadius - InitRadius) / BarGap); t++)
                 {
                     var radius = InitRadius + t * BarGap;
                     var columnAngle = distance * i;
-                    var x = radius * Math.Cos(columnAngle) + center.X;
-                    var y = radius * Math.Sin(columnAngle) + center.Y;
-                    var width = Math.Abs(radius * Math.Sin(distance / 2) * 2 - ColumnGap);
+                    var x = radius * Cos(columnAngle) + center.X;
+                    var y = radius * Sin(columnAngle) + center.Y;
+
+                    var width = Abs(radius * Sin(distance / 2) * 2 - ColumnGap);
                     if (width < .5) width = .5;
                     var scale = new Vector2((float)width, 3);
 
@@ -59,13 +61,12 @@ namespace StorybrewScripts
                     var sprite = GetLayer("").CreateSprite("sb/p.png", OsbOrigin.Centre, new Vector2((float)x, (float)y));
                     keyframe.ForEachPair((start, end) => sprite.Fade(start.Time, end.Time, start.Value, end.Value));
 
-                    if (sprite.CommandCount > 0) 
-                    {
-                        var rotation = distance * i + Math.PI / 2;
-                        if (rotation != Math.PI && rotation != Math.PI * 2) sprite.Rotate(startTime, rotation);
-                        sprite.ScaleVec(startTime, scale);
-                        if (sprite.OpacityAt(endTime + 1) > 0) sprite.Fade(endTime, endTime + beat, sprite.OpacityAt(endTime), 0);
-                    }
+                    if (sprite.CommandCost == 0) break;
+
+                    var rotation = distance * i + Pi / 2;
+                    if (rotation != Pi && rotation != Pi * 2) sprite.Rotate(startTime, rotation);
+                    sprite.ScaleVec(startTime, scale);
+                    if (sprite.OpacityAt(endTime + 1) > 0) sprite.Fade(endTime, endTime + beat, sprite.OpacityAt(endTime), 0);
                 }
             }
         }

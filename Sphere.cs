@@ -32,7 +32,7 @@ namespace StorybrewScripts
             var spinDuration = beat * DurationMult;
             double startTime = StartTime;
 
-            var count = 0;
+            var count = 1;
             for (var i = 0; i < Subdivision.X; i++)
             {
                 count++;
@@ -84,7 +84,7 @@ namespace StorybrewScripts
                     }
                     sprite.EndGroup();
 
-                    if (count == 1 | count == SplitInterval)
+                    if (SplitInterval > 0 && count == 1 || count == SplitInterval)
                     {
                         sprite.Additive(StartTime);
                         sprite.ColorHsb(StartTime, 190, .8, .8);
