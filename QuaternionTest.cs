@@ -8,10 +8,7 @@ using static StorybrewCommon.OpenTKUtil.MathHelper;
 
 namespace StorybrewScripts
 {
-    /// <summary>
-    /// Replicates a transformed and splitted sphere.
-    /// <para>Verified working.</para>
-    /// </summary>
+    ///<summary> Replicates a transformed and splitted sphere. <para>Verified working.</para></summary>
     class QuaternionTest : StoryboardObjectGenerator
     {
         protected override void Generate()
@@ -24,7 +21,7 @@ namespace StorybrewScripts
             });
         }
 
-        ///<summary> Generates a transformed sphere that rotates about the yaw axis </summary>
+        ///<summary> Generates a transformed sphere that rotates about the yaw axis. </summary>
         ///<param name="start"> Start time of the object </param>
         ///<param name="end"> End time of the object </param>
         ///<param name="size"> Size multiplier of the object </param>
@@ -34,6 +31,7 @@ namespace StorybrewScripts
         ///<param name="action"> Any wanted additions to the "splitted" dots </param>
         void MakeSphere(int start, int end, double size, uint split, Vector2i dots, double spinMult, Action<OsbSprite> action = null)
         {
+            dots = new Vector2i(dots.X, dots.Y + 1);
             var beat = Beatmap.GetTimingPointAt(start).BeatDuration;
             var spinDur = beat * spinMult;
 
@@ -46,8 +44,8 @@ namespace StorybrewScripts
                 var rad = size * Sin(c / dots.Y * Pi);
                 var basePos = new Vector3d(rad * Cos(r / dots.X * TwoPi), size * Cos(c / dots.Y * Pi), rad * Sin(r / dots.X * TwoPi));
 
-                var rotFunc = new Vector3d(DegreesToRadians(42.5), 0, DegreesToRadians(25));
-                var pos = Vector3d.Transform(basePos, new Quaterniond(rotFunc));
+                var rotFunc = new Quaterniond(DegreesToRadians(43.5), 0, DegreesToRadians(25));
+                var pos = Vector3d.Transform(basePos, rotFunc);
 
                 var sprite = GetLayer("").CreateSprite("sb/dot.png", OsbOrigin.Centre, new Vector2(0, (float)pos.Y + 240));
                 sprite.Fade(start + r * 40, start + r * 40 + beat * 4, 0, 1);
@@ -62,7 +60,6 @@ namespace StorybrewScripts
                 sprite.MoveX(OsbEasing.InOutSine, spinDur / 2, spinDur, 320 - maxRad, 320 + maxRad);
                 sprite.EndGroup();
 
-                sprite.Scale(start, .25);
                 if (split != 0 && i == 1 || i == split)
                 {
                     sprite.Additive(start);
@@ -79,6 +76,7 @@ namespace StorybrewScripts
 
                     if (action != null) action(sprite);
                 }
+                else sprite.Scale(start, .25);
             }
         }
     }
