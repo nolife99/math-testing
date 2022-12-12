@@ -8,7 +8,6 @@ using static StorybrewCommon.OpenTKUtil.MathHelper;
 
 namespace StorybrewScripts
 {
-    ///<summary> Replicates a transformed and splitted sphere. <para>Verified working.</para></summary>
     class QuaternionTest : StoryboardObjectGenerator
     {
         protected override void Generate()
